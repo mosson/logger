@@ -11,6 +11,10 @@ func TestLogger(t *testing.T) {
 
 	l.Info("Hello, World")
 
+	if !bytes.Contains(buf.Bytes(), []byte("INFO:")) {
+		t.Errorf("must contain 'INFO:', But actual output is %s", buf.Bytes())
+	}
+
 	if !bytes.Contains(buf.Bytes(), []byte("Hello, World")) {
 		t.Errorf("must contain 'Hello, World', But actual output is %s", buf.Bytes())
 	}

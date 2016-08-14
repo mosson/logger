@@ -28,7 +28,7 @@ func (l *Logger) Debug(format string, a ...interface{}) (n int, err error) {
 		return 0, nil
 	}
 
-	return fmt.Fprintf(l.Output, l.body(format), a...)
+	return fmt.Fprintf(l.Output, l.body("DEBUG", format), a...)
 }
 
 // Info logs on INFO Serverity
@@ -37,7 +37,7 @@ func (l *Logger) Info(format string, a ...interface{}) (n int, err error) {
 		return 0, nil
 	}
 
-	return fmt.Fprintf(l.Output, l.body(format), a...)
+	return fmt.Fprintf(l.Output, l.body("INFO", format), a...)
 }
 
 // Warn logs on WARN Serverity
@@ -46,7 +46,7 @@ func (l *Logger) Warn(format string, a ...interface{}) (n int, err error) {
 		return 0, nil
 	}
 
-	return fmt.Fprintf(l.Output, l.body(format), a...)
+	return fmt.Fprintf(l.Output, l.body("WARN", format), a...)
 }
 
 // Error logs on ERROR Serverity
@@ -55,7 +55,7 @@ func (l *Logger) Error(format string, a ...interface{}) (n int, err error) {
 		return 0, nil
 	}
 
-	return fmt.Fprintf(l.Output, l.body(format), a...)
+	return fmt.Fprintf(l.Output, l.body("ERROR", format), a...)
 }
 
 // Fatal logs on FATAL Serverity
@@ -64,7 +64,7 @@ func (l *Logger) Fatal(format string, a ...interface{}) (n int, err error) {
 		return 0, nil
 	}
 
-	return fmt.Fprintf(l.Output, l.body(format), a...)
+	return fmt.Fprintf(l.Output, l.body("FATAL", format), a...)
 }
 
 // NewLogger returns new Logger Instance.
@@ -83,6 +83,6 @@ func (l *Logger) now() string {
 	return time.Now().String()
 }
 
-func (l *Logger) body(format string) string {
-	return fmt.Sprintf("[%s, PID: %d] %s\n", l.now(), os.Getpid(), format)
+func (l *Logger) body(severity string, format string) string {
+	return fmt.Sprintf("[%s: %s, PID: %d] %s\n", severity, l.now(), os.Getpid(), format)
 }

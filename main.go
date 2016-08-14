@@ -1,8 +1,19 @@
 package main
 
-import "logger/log"
+import (
+	"logger/log"
+	"os"
+)
 
 func main() {
 	l := log.DefaultLogger()
 	l.Error("Hello, World")
+
+	file, err := os.Create("sample.log")
+	if err != nil {
+		panic(err)
+	}
+
+	l2 := log.NewLogger(log.DEBUG, file)
+	l2.Warn("Hip Hop")
 }
