@@ -60,10 +60,6 @@ func (l *Logger) Error(format string, a ...interface{}) (n int, err error) {
 
 // Fatal logs on FATAL Serverity
 func (l *Logger) Fatal(format string, a ...interface{}) (n int, err error) {
-	if l.Severity > FATAL {
-		return 0, nil
-	}
-
 	return fmt.Fprintf(l.Output, l.body("FATAL", format), a...)
 }
 
