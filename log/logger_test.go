@@ -12,7 +12,7 @@ func TestLogger(t *testing.T) {
 	l.Info("Hello, World")
 
 	if !bytes.Contains(buf.Bytes(), []byte("Hello, World")) {
-		t.Errorf("must contain Hello, World, But actual output is %s", buf.Bytes())
+		t.Errorf("must contain 'Hello, World', But actual output is %s", buf.Bytes())
 	}
 
 	buf2 := &bytes.Buffer{}
@@ -21,6 +21,6 @@ func TestLogger(t *testing.T) {
 	l2.Warn("Hello, World")
 
 	if bytes.Contains(buf2.Bytes(), []byte("Hello, World")) {
-		t.Errorf("must not contain Hello, World, But actual output is %s", buf.Bytes())
+		t.Errorf("must not contain 'Hello, World', But actual output is %s", buf.Bytes())
 	}
 }
