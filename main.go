@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"logger/log"
 	"os"
+	"sync/atomic"
 )
 
 func main() {
@@ -20,7 +22,21 @@ func main() {
 	l3 := log.NewAsyncLogger(log.DEBUG, os.Stdout)
 	go l3.Run()
 	defer l3.Stop()
+	stop := make(chan bool)
+	var op uint64
 
-	l3.Error <- "Hello, AsyncLogger"
-	l3.Info <- "Hello, AsyncLogger"
+	for i := 0; i < 100; i++ {
+		go func(i int) {
+			l3.Error <- fmt.Sprintf("Hello, %d", i)
+			l3.Info <- fmt.Sprintf("Hello, %d", i)
+			atomic.AddUint64(&op, 1)
+
+			if atomic.LoadUint64(&op) == uint64(100) {
+				stop <- true
+			}
+		}(i)
+	}
+
+	<-stop
+
 }
